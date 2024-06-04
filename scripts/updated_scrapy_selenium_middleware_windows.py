@@ -74,7 +74,7 @@ class SeleniumMiddleware:
             from selenium import webdriver
             # from selenium.webdriver.chrome.service import Service
             if driver_name and driver_name.lower() == 'chrome':
-                self.driver = webdriver.Chrome()
+                self.driver = webdriver.Chrome(options=driver_options)
                 # service = Service()
                 # self.driver = webdriver.Chrome(service=service, options=driver_options)
 
