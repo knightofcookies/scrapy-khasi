@@ -1,11 +1,14 @@
 from typing import List
 import scrapy
 from scrapy_selenium import SeleniumRequest
+from khasi_news.items import KhasiNewsItem
 
 
 class RupangSpider(scrapy.Spider):
     name = "rupang"
     allowed_domains = ["urupang.com"]
+
+    # custom_settings = {"FEEDS": {"rupang.csv": {"format": "csv"}}}
 
     def start_requests(self):
         url = "https://www.urupang.com/sitemap_index.xml"
@@ -14,7 +17,7 @@ class RupangSpider(scrapy.Spider):
     def parse(self, response):
         links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
-            if 'post-sitemap' in link:
+            if "post-sitemap" in link:
                 yield SeleniumRequest(url=link, callback=self.parse_sitemap)
 
     def parse_sitemap(self, response):
@@ -33,4 +36,10 @@ class RupangSpider(scrapy.Spider):
         title_selector = """body > div.site-container > div
          > div > main > article > header > h1 ::text"""
         title = response.css(title_selector).get()
-        yield {"text": title + article_text}
+
+        news_item = KhasiNewsItem()
+        news_item["url"] = response.url
+        news_item["title"] = title
+        news_item["content"] = article_text
+
+        yield news_item
