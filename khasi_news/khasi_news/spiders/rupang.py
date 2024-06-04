@@ -21,7 +21,7 @@ class RupangSpider(scrapy.Spider):
     #             yield SeleniumRequest(url=link, callback=self.parse_sitemap)
 
     def start_requests(self):
-        url = "https://www.urupang.com/post-sitemap.xml"
+        url = "https://www.urupang.com/post-sitemap3.xml"
         yield SeleniumRequest(url=url, callback=self.parse_sitemap)
 
     def parse_sitemap(self, response):
