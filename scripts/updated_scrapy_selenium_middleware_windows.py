@@ -48,6 +48,13 @@ class SeleniumMiddleware:
             f'{driver_name}_options': driver_options
         }
 
+        driver_options.add_experimental_option(
+           "prefs", {
+                # block image loading
+                "profile.managed_default_content_settings.images": 2,
+            }
+        )
+
         # locally installed driver
         if driver_executable_path is not None:
             driver_kwargs = {

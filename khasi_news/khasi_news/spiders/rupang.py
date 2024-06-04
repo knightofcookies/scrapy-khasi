@@ -10,15 +10,19 @@ class RupangSpider(scrapy.Spider):
 
     # custom_settings = {"FEEDS": {"rupang.csv": {"format": "csv"}}}
 
-    def start_requests(self):
-        url = "https://www.urupang.com/sitemap_index.xml"
-        yield SeleniumRequest(url=url, callback=self.parse)
+    # def start_requests(self):
+    #     url = "https://www.urupang.com/sitemap_index.xml"
+    #     yield SeleniumRequest(url=url, callback=self.parse)
 
-    def parse(self, response):
-        links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
-        for link in links:
-            if "post-sitemap" in link:
-                yield SeleniumRequest(url=link, callback=self.parse_sitemap)
+    # def parse(self, response):/
+    #     links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
+    #     for link in links:
+    #         if "post-sitemap" in link:
+    #             yield SeleniumRequest(url=link, callback=self.parse_sitemap)
+
+    def start_requests(self):
+        url = "https://www.urupang.com/post-sitemap.xml"
+        yield SeleniumRequest(url=url, callback=self.parse_sitemap)
 
     def parse_sitemap(self, response):
         links = response.css("table tbody tr td a ::attr(href)").extract()
@@ -37,9 +41,10 @@ class RupangSpider(scrapy.Spider):
          > div > main > article > header > h1 ::text"""
         title = response.css(title_selector).get()
 
-        news_item = KhasiNewsItem()
-        news_item["url"] = response.url
-        news_item["title"] = title
-        news_item["content"] = article_text
+        if article_text is not None and article_text != "":
+            news_item = KhasiNewsItem()
+            news_item["url"] = response.url
+            news_item["title"] = title
+            news_item["content"] = article_text
 
-        yield news_item
+            yield news_item
