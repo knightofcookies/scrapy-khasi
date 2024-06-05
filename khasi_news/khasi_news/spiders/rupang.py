@@ -10,6 +10,8 @@ class RupangSpider(scrapy.Spider):
 
     # custom_settings = {"FEEDS": {"rupang.csv": {"format": "csv"}}}
 
+    # The below two methods can be commented out
+    # to crawl all the post sitemaps at once.
     # def start_requests(self):
     #     url = "https://www.urupang.com/sitemap_index.xml"
     #     yield SeleniumRequest(url=url, callback=self.parse)
@@ -20,8 +22,9 @@ class RupangSpider(scrapy.Spider):
     #         if "post-sitemap" in link:
     #             yield SeleniumRequest(url=link, callback=self.parse_sitemap)
 
+    # Comment this method out to crawl the entire site
     def start_requests(self):
-        url = "https://www.urupang.com/post-sitemap3.xml"
+        url = "https://www.urupang.com/post-sitemap2.xml"
         yield SeleniumRequest(url=url, callback=self.parse_sitemap)
 
     def parse_sitemap(self, response):
