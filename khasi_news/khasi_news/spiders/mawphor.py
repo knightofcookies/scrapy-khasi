@@ -4,16 +4,12 @@ from scrapy_selenium import SeleniumRequest
 from khasi_news.items import KhasiNewsItem
 
 
-class RupangSpider(scrapy.Spider):
-    name = "rupang"
-    allowed_domains = ["urupang.com"]
+class MawphorSpider(scrapy.Spider):
+    name = "mawphor"
+    allowed_domains = ["mawphor.com"]
 
-    # custom_settings = {"FEEDS": {"rupang.csv": {"format": "csv"}}}
-
-    # The below two methods can be commented out
-    # to crawl all the post sitemaps at once.
     # def start_requests(self):
-    #     url = "https://www.urupang.com/sitemap_index.xml"
+    #     url = "https://mawphor.com/sitemap.xml"
     #     yield SeleniumRequest(url=url, callback=self.parse)
 
     # def parse(self, response):
@@ -22,9 +18,8 @@ class RupangSpider(scrapy.Spider):
     #         if "post-sitemap" in link:
     #             yield SeleniumRequest(url=link, callback=self.parse_sitemap)
 
-    # Comment this method out to crawl the entire site
     def start_requests(self):
-        url = "https://www.urupang.com/post-sitemap2.xml"
+        url = "https://mawphor.com/post-sitemap.xml"
         yield SeleniumRequest(url=url, callback=self.parse_sitemap)
 
     def parse_sitemap(self, response):
@@ -33,15 +28,15 @@ class RupangSpider(scrapy.Spider):
             yield SeleniumRequest(url=link, callback=self.parse_article_page)
 
     def parse_article_page(self, response):
-        te = response.css("main.content p::text").extract()
+        te = response.css("article div.entry-content p::text").extract()
         te_processed = []
         for item in te:
             for i in item.split("\n"):
                 te_processed.append(i.strip())
         article_text = "".join(te_processed)
 
-        title_selector = """body > div.site-container > div
-         > div > main > article > header > h1 ::text"""
+        title_selector = """article div.post-header h1.single-post-title 
+            span.post-title ::text"""
         title = response.css(title_selector).get()
 
         if article_text is not None and article_text != "":

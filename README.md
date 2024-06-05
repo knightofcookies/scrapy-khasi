@@ -14,5 +14,12 @@ Replace the `middlewares.py` file with the `updated_scrapy_seleniun_middleware_X
 ## Running the spiders
 In the outer `khasi_news` directory, run `scrapy crawl <spider_name>`.
 
-Available spiders:
-- `rupang`
+## Available spiders:
+- `rupang` : https://www.urupang.com/
+- `mawphor` : https://mawphor.com/
+
+## To Do 
+- https://kynjatshai.com/
+- https://unongsainhima.com/
+- https://www.syllad.com/
+- https://khasinewsonline.com/
