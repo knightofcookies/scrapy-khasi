@@ -20,7 +20,7 @@ NEWSPIDER_MODULE = "khasi_news.spiders"
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 100
+CONCURRENT_REQUESTS = 250
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -97,13 +97,20 @@ FEED_EXPORT_ENCODING = "utf-8"
 # SCRAPEOPS_FAKE_USER_AGENT_ENABLED = True
 # SCRAPEOPS_NUM_RESULTS = 50
 
-DOWNLOADER_MIDDLEWARES = {
-    # 'khasi_news.middlewares.ScrapeOpsFakeUserAgentMiddleware': 400,
-    "scrapy_selenium.SeleniumMiddleware": 800
+# DOWNLOADER_MIDDLEWARES = {
+#     # 'khasi_news.middlewares.ScrapeOpsFakeUserAgentMiddleware': 400,
+#     # "scrapy_selenium.SeleniumMiddleware": 800
+# }
+
+# SELENIUM_DRIVER_ARGUMENTS = ["--headless=new"]
+# SELENIUM_DRIVER_NAME = "chrome"
+
+DOWNLOAD_HANDLERS = {
+    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
 }
 
-SELENIUM_DRIVER_ARGUMENTS = ["--headless=new"]
-SELENIUM_DRIVER_NAME = "chrome"
+TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 FEEDS = {
     "data/%(name)s/%(name)s_%(time)s.csv": {

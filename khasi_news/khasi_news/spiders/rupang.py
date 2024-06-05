@@ -25,12 +25,18 @@ class RupangSpider(scrapy.Spider):
     # Comment this method out to crawl the entire site
     def start_requests(self):
         url = "https://www.urupang.com/post-sitemap2.xml"
-        yield SeleniumRequest(url=url, callback=self.parse_sitemap)
+        # yield SeleniumRequest(url=url, callback=self.parse_sitemap)
+        yield scrapy.Request(
+            url=url, callback=self.parse_sitemap, meta={"playwright": True}
+        )
 
     def parse_sitemap(self, response):
         links = response.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
-            yield SeleniumRequest(url=link, callback=self.parse_article_page)
+            # yield SeleniumRequest(url=link, callback=self.parse_article_page)
+            yield scrapy.Request(
+                url=link, callback=self.parse_article_page, meta={"playwright": True}
+            )
 
     def parse_article_page(self, response):
         te = response.css("main.content p::text").extract()
