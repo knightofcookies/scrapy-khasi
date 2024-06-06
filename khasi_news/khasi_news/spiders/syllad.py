@@ -12,46 +12,46 @@ class SylladSpider(scrapy.Spider):
     allowed_domains = ["syllad.com"]
 
     def start_requests(self):
-        url = "https://www.syllad.com/sitemap_index.xml"
-        yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
+        # url = "https://www.syllad.com/sitemap_index.xml"
+        # yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
+        url = "https://www.syllad.com/iohkem-ki-vdp-bad-pulit-ia-uba-pyniap-bad-lehbein-ia-i-heprit-san-snem/"
+        yield scrapy.Request(url=url, callback=self.parse_article_page, meta={"playwright": True})
 
     def parse(self, response):
-        links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
+        selector = scrapy.Selector(text=response.text)
+        links: List[str] = selector.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
             if "post-sitemap" in link:
                 yield scrapy.Request(
                     url=link, callback=self.parse_sitemap, meta={"playwright": True}
                 )
 
-    # def start_requests(self):
-    #     url = "https://www.syllad.com/post-sitemap.xml"
-    #     yield scrapy.Request(
-    #         url=url, callback=self.parse_sitemap, meta={"playwright": True}
-    #     )
-
     def parse_sitemap(self, response):
-        links = response.css("table tbody tr td a ::attr(href)").extract()
+        selector = scrapy.Selector(text=response.text)
+        links = selector.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
             yield scrapy.Request(
                 url=link, callback=self.parse_article_page, meta={"playwright": True}
             )
 
     def parse_article_page(self, response):
-        te = response.css(
-            """body div.site-container div.site-inner div
-            main.content article.category-khasi div.entry-content header.entry-header 
+        selector = scrapy.Selector(text=response.text)
+        te = selector.css(
+            """article.category-khasi div.entry-content header.entry-header 
             p::text"""
         ).extract()
+        print(te) # DEBUG
         te_processed = []
         for item in te:
             for i in item.split("\n"):
                 te_processed.append(i.strip())
         article_text = "".join(te_processed)
+        print(article_text) # DEBUG
 
-        title_selector = """body div.site-container div.site-inner div
-            main.content article.category-khasi div.entry-content 
+        title_selector = """article.category-khasi div.entry-content 
             header.entry-header h1.entry-title::text"""
-        title = response.css(title_selector).get()
+        title = selector.css(title_selector).get()
+        print(title) # DEBUG
 
         if article_text is not None and article_text != "":
             news_item = KhasiNewsItem()

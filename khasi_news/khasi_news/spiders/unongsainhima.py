@@ -13,28 +13,25 @@ class UnongsainhimaSpider(scrapy.Spider):
         yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
 
     def parse(self, response):
-        links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
+        selector = scrapy.Selector(text=response.text)
+        links: List[str] = selector.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
             if "post-sitemap" in link:
                 yield scrapy.Request(
                     url=link, callback=self.parse_sitemap, meta={"playwright": True}
                 )
 
-    # def start_requests(self):
-    #     url = "https://unongsainhima.com/post-sitemap1.xml"
-    #     yield scrapy.Request(
-    #         url=url, callback=self.parse_sitemap, meta={"playwright": True}
-    #     )
-
     def parse_sitemap(self, response):
-        links = response.css("table tbody tr td a ::attr(href)").extract()
+        selector = scrapy.Selector(text=response.text)
+        links = selector.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
             yield scrapy.Request(
                 url=link, callback=self.parse_article_page, meta={"playwright": True}
             )
 
     def parse_article_page(self, response):
-        te = response.css("article p::text").extract()
+        selector = scrapy.Selector(text=response.text)
+        te = selector.css("article p::text").extract()
         te_processed = []
         for item in te:
             for i in item.split("\n"):
@@ -43,7 +40,7 @@ class UnongsainhimaSpider(scrapy.Spider):
 
         title_selector = """#main > div > div.main-content > header > 
             h1 ::text"""
-        title = response.css(title_selector).get()
+        title = selector.css(title_selector).get()
 
         if article_text is not None and article_text != "":
             news_item = KhasiNewsItem()
