@@ -1,26 +1,14 @@
-from typing import List
 import scrapy
 from khasi_news.items import KhasiNewsItem
 
+# Issue: https://khasinewsonline.com has 16 articles and low quality articles
 
-class MawphorSpider(scrapy.Spider):
-    name = "mawphor"
-    allowed_domains = ["mawphor.com"]
-
-    # def start_requests(self):
-    #     url = "https://mawphor.com/sitemap.xml"
-    #     yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
-
-    # def parse(self, response):
-    #     links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
-    #     for link in links:
-    #         if "post-sitemap" in link:
-    #             yield scrapy.Request(
-    #                 url=link, callback=self.parse_sitemap, meta={"playwright": True}
-    #             )
+class KhasinewsonlineSpider(scrapy.Spider):
+    name = "khasinewsonline"
+    allowed_domains = ["khasinewsonline.com"]
 
     def start_requests(self):
-        url = "https://mawphor.com/post-sitemap.xml"
+        url = "https://khasinewsonline.com/wp-sitemap-posts-post-1.xml"
         yield scrapy.Request(
             url=url, callback=self.parse_sitemap, meta={"playwright": True}
         )
@@ -33,15 +21,17 @@ class MawphorSpider(scrapy.Spider):
             )
 
     def parse_article_page(self, response):
-        te = response.css("article div.entry-content p::text").extract()
+        te = response.css(
+            "main article div.article-inner div.entry-content p::text"
+        ).extract()
         te_processed = []
         for item in te:
             for i in item.split("\n"):
                 te_processed.append(i.strip())
         article_text = "".join(te_processed)
 
-        title_selector = """article div.post-header h1.single-post-title 
-            span.post-title ::text"""
+        title_selector = """main article div.article-inner header.entry-header 
+            h1.entry-title ::text"""
         title = response.css(title_selector).get()
 
         if article_text is not None and article_text != "":

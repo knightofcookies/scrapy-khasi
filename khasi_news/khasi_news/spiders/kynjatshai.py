@@ -3,18 +3,17 @@ import scrapy
 from khasi_news.items import KhasiNewsItem
 
 
-class RupangSpider(scrapy.Spider):
-    name = "rupang"
-    allowed_domains = ["urupang.com"]
-
-    # custom_settings = {"FEEDS": {"rupang.csv": {"format": "csv"}}}
+class KynjatshaiSpider(scrapy.Spider):
+    name = "kynjatshai"
+    allowed_domains = ["kynjatshai.com"]
 
     def start_requests(self):
-        url = "https://www.urupang.com/sitemap_index.xml"
+        url = "https://kynjatshai.com/sitemap_index.xml"
         yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
 
     def parse(self, response):
         links: List[str] = response.css("table tbody tr td a ::attr(href)").extract()
+        print(links)  # DEBUG
         for link in links:
             if "post-sitemap" in link:
                 yield scrapy.Request(
@@ -22,8 +21,7 @@ class RupangSpider(scrapy.Spider):
                 )
 
     # def start_requests(self):
-    #     url = "https://www.urupang.com/post-sitemap2.xml"
-    #     # yield SeleniumRequest(url=url, callback=self.parse_sitemap)
+    #     url = "https://kynjatshai.com/post-sitemap1.xml"
     #     yield scrapy.Request(
     #         url=url, callback=self.parse_sitemap, meta={"playwright": True}
     #     )
@@ -31,21 +29,19 @@ class RupangSpider(scrapy.Spider):
     def parse_sitemap(self, response):
         links = response.css("table tbody tr td a ::attr(href)").extract()
         for link in links:
-            # yield SeleniumRequest(url=link, callback=self.parse_article_page)
             yield scrapy.Request(
                 url=link, callback=self.parse_article_page, meta={"playwright": True}
             )
 
     def parse_article_page(self, response):
-        te = response.css("main.content p::text").extract()
+        te = response.css("body main div div article p::text").extract()
         te_processed = []
         for item in te:
             for i in item.split("\n"):
                 te_processed.append(i.strip())
         article_text = "".join(te_processed)
 
-        title_selector = """body > div.site-container > div
-         > div > main > article > header > h1 ::text"""
+        title_selector = """body main div div h1::text"""
         title = response.css(title_selector).get()
 
         if article_text is not None and article_text != "":
