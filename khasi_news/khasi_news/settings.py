@@ -117,3 +117,17 @@ FEEDS = {
         "format": "csv",
     }
 }
+
+def is_ad(url):
+    return "google" in url
+
+def is_image(url):
+    return ".jpg" in url or ".svg" in url or ".png" in url
+
+def should_abort_request(request):
+    return (
+        request.resource_type == "image" or is_image(request.url) or is_ad(request.url)
+    )
+
+
+PLAYWRIGHT_ABORT_REQUEST = should_abort_request
