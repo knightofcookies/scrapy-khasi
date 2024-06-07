@@ -1,11 +1,18 @@
-import pandas as pd
 import re
 
+regex = r"^\"\s(\bJanuary|February|March|April|May|June|July|August|September|October|November|December)(\b\s+\d{1,2},\s+\d{4})"
+
+new_lines = []
 # Read the CSV file (replace 'your_file.csv' with your actual file path)
-data = pd.read_csv('../../khasi_news/data/syllad/syllad_2024-06-07T09-48-05+00-00.csv')
+with open(
+    "../../khasi_news/data/syllad/syllad_2024-06-07T09-48-05+00-00.csv",
+    "r",
+    encoding="utf-8",
+) as f:
+    lines = f.readlines()
 
-# Extract the relevant text after the date portion
-data['content'] = data['content'].apply(lambda x: re.sub(r'^\w+ \d{1,2}, \d{4} ', '', x))
+for line in lines:
+    new_lines.append(re.sub(regex, "\"", line).strip()+"\n")
 
-# Save the modified DataFrame to a new CSV file
-data.to_csv('new_file.csv', index=False)
+with open("syllad_without_dates.csv", "w", encoding="utf-8") as f:
+    f.writelines(new_lines)
