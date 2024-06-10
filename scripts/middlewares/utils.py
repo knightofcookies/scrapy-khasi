@@ -1,5 +1,3 @@
-import textwrap
-
 def remove_indentation(filename):
     with open(filename, 'r') as file:
         lines = file.readlines()
