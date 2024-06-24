@@ -80,6 +80,7 @@ for name in os.listdir("merged_chunks"):
         "Hon.",
         "Fr.",
         "sq.",
+        "Rtd."
     ] + [f"{chr(i)}." for i in range(65, 91)]
 
     merged_lines = merge_lines_ending_with_abbreviation(lines)
