@@ -44,6 +44,9 @@ def merge_lines_ending_with_abbreviation(lines_):
             lines_ = new_lines_
 
 
+with open("merged.txt", "w", encoding="utf-8") as file:
+    file.write("")
+
 for name in os.listdir("merged_chunks"):
     with open(os.path.join("merged_chunks", name), "r", encoding="utf-8") as file:
         lines = file.readlines()
@@ -76,11 +79,30 @@ for name in os.listdir("merged_chunks"):
         "Hony.",
         "Hon.",
         "Fr.",
-        "sq."
+        "sq.",
     ] + [f"{chr(i)}." for i in range(65, 91)]
 
     merged_lines = merge_lines_ending_with_abbreviation(lines)
 
-    with open(os.path.join("merged_chunks", name), "w", encoding="utf-8") as file:
+    with open("merged.txt", "a", encoding="utf-8") as file:
         for line in merged_lines:
             file.write("%s\n" % line)
+
+VERIFIED_DIR = "../../manual_verification/chunks"
+
+for name in os.listdir(VERIFIED_DIR):
+    with open(os.path.join(VERIFIED_DIR, name), "r", encoding="utf-8") as file:
+        lines = file.readlines()
+    with open("merged.txt", "a", encoding="utf-8") as file:
+        file.writelines(lines)
+
+with open("merged.txt", "r", encoding="utf-8") as file:
+    lines = file.readlines()
+
+unique_lines = set()
+
+for line in lines:
+    unique_lines.add(line)
+
+with open("merged.txt", "w", encoding="utf-8") as file:
+    lines = file.writelines(unique_lines)
