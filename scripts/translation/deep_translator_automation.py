@@ -21,7 +21,7 @@ async def main() -> None:
     if not os.path.exists("translated/"):
         os.mkdir("translated")
 
-    kha_to_en_translator = GoogleTranslator(source="en", target="kha")
+    kha_to_en_translator = GoogleTranslator(source="kha", target="en")
     for line in orig_lines:
         txt = kha_to_en_translator.translate(line)
         with open(file_path, "a", encoding="utf-8") as f:
