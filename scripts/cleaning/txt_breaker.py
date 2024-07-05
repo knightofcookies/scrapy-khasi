@@ -1,5 +1,5 @@
 def split_text_file_by_lines(filename, num_lines):
-    with open(filename, 'r') as file:
+    with open(filename, 'r', encoding="utf-8", errors="ignore") as file:
         lines = file.readlines()
 
     # Calculate the approximate number of lines per part
@@ -10,8 +10,8 @@ def split_text_file_by_lines(filename, num_lines):
 
     # Save each chunk to separate files (e.g., part1.txt, part2.txt, ..., part25.txt)
     for i, chunk in enumerate(chunks, start=1):
-        with open(f'chunks/part{i}.txt', 'w') as output_file:
+        with open(f'chunks_for_translation/part{i}.txt', 'w', encoding="utf-8") as output_file:
             output_file.writelines(chunk)
 
 # Usage
-split_text_file_by_lines('../../datasets/dot_split/combined_corpus.txt', 1000)
+split_text_file_by_lines('../../scripts/cleaning/merged.txt', 10)

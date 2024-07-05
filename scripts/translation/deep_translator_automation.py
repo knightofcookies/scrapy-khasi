@@ -1,14 +1,20 @@
 import datetime
 import os
 import asyncio
+import sys
 from deep_translator import GoogleTranslator
+
+# Add {"khasi": "kha"} to the Google Translate dict in constants.py in deep_translator
 
 
 async def main() -> None:
-    with open("../cleaning/merged.txt", "r", encoding="utf-8") as f:
+    if len(sys.argv) < 2:
+        return
+
+    with open(f"to_translate{sys.argv[1]}", "r", encoding="utf-8") as f:
         orig_lines = f.readlines()
 
-    file_path = "kha_to_en.txt"
+    file_path = f"translated/{sys.argv[1]}_kha_to_en.txt"
     if os.path.exists(file_path):
         os.remove(file_path)
 
