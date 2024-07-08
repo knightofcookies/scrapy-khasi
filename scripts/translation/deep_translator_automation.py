@@ -1,3 +1,4 @@
+import winsound
 import datetime
 import os
 import asyncio
@@ -33,3 +34,4 @@ if __name__ == "__main__":
     asyncio.run(main())
     end = datetime.datetime.now()
     print(end - start)
+    winsound.Beep(2500, 1000)
