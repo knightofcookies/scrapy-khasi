@@ -11,7 +11,7 @@ async def main() -> None:
     if len(sys.argv) < 2:
         return
 
-    with open(f"to_translate/{sys.argv[1]}.txt", "r", encoding="utf-8") as f:
+    with open(f"chunks_for_translation/{sys.argv[1]}.txt", "r", encoding="utf-8") as f:
         orig_lines = f.readlines()
 
     file_path = f"translated/{sys.argv[1]}_kha_to_en.txt"
