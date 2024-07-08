@@ -14,4 +14,4 @@ def split_text_file_by_lines(filename, num_lines):
             output_file.writelines(chunk)
 
 # Usage
-split_text_file_by_lines('../../scripts/cleaning/merged.txt', 10)
+split_text_file_by_lines('../../scripts/cleaning/merged.txt', 633)
