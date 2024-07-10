@@ -11,6 +11,9 @@ for name in os.listdir(DIRECTORY):
         if line[0].isdigit():
             if merged_lines:
                 merged_lines[-1] = merged_lines[-1].strip() + line
+        elif line.startswith("com") or line.startswith("org"):
+            if merged_lines:
+                merged_lines[-1] = merged_lines[-1].strip() + line
         else:
             merged_lines.append(line)
 
@@ -80,7 +83,15 @@ for name in os.listdir("merged_chunks"):
         "Hon.",
         "Fr.",
         "sq.",
-        "Rtd."
+        "Rtd.",
+        "Sec.",
+        "Hr.",
+        "Md.",
+        "Lt.",
+        "Rgh.",
+        "R/o.",
+        "Revd.",
+        "www."
     ] + [f"{chr(i)}." for i in range(65, 91)]
 
     merged_lines = merge_lines_ending_with_abbreviation(lines)
