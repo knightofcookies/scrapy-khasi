@@ -10,10 +10,10 @@ from win11toast import toast
 
 # Add {"khasi": "kha"} to the Google Translate dict in constants.py in deep_translator
 
-THREAD_LIMIT = 25
+THREAD_LIMIT = 300
 
-START = 1  # Delete pickle_dump if you change this
-END = 100  # Delete pickle_dump if you change this
+START = 300 # Delete pickle_dump if you change this
+END = 634 # Delete pickle_dump if you change this
 
 PICKLE_DUMP_PATH = "pickle_dump"
 
@@ -79,4 +79,12 @@ if __name__ == "__main__":
     end = datetime.datetime.now()
     print(end - start)
     winsound.Beep(2500, 1000)
+    with open(PICKLE_DUMP_PATH, "rb") as f:
+        complete = pickle.load(f)
+    COUNT = 0
+    for status in complete:
+        if status:
+            COUNT += 1
+    if COUNT == len(complete):
+        toast('Program Terminated', 'All chunks in range successfully translated.')
     toast('Program Terminated', 'Change your IP address and try again.')
