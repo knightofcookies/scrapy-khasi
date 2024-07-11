@@ -34,7 +34,7 @@ class MawphorSpider(scrapy.Spider):
                 te_processed.append(i.strip())
         article_text = "".join(te_processed)
 
-        title_selector = """article div.post-header h1.single-post-title 
+        title_selector = """article div.post-header h1.single-post-title
             span.post-title ::text"""
         title = response.css(title_selector).get()
 
