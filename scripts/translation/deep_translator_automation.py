@@ -20,6 +20,8 @@ async def main() -> None:
     if os.path.exists(file_path):
         with open(file_path, "r", encoding="utf-8") as f:
             index = len(f.readlines())
+    if index < 0:
+        index = 0
 
     if not os.path.exists("translated/"):
         os.mkdir("translated")
