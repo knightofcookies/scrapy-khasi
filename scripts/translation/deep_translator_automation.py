@@ -10,13 +10,20 @@ from win11toast import toast
 
 # Add {"khasi": "kha"} to the Google Translate dict in constants.py in deep_translator
 
-THREAD_LIMIT = 300
+THREAD_LIMIT = 100
 
-START = 300 # Delete pickle_dump if you change this
+START = 301 # Delete pickle_dump if you change this
 END = 634 # Delete pickle_dump if you change this
 
 PICKLE_DUMP_PATH = "pickle_dump"
 
+if not os.path.exists(PICKLE_DUMP_PATH):
+    complete: List[bool] = [False] * (END - START + 1)
+    with open(PICKLE_DUMP_PATH, "wb") as fp:
+        pickle.dump(complete, fp)
+
+with open(PICKLE_DUMP_PATH, "rb") as fp:
+    complete = pickle.load(fp)
 
 def translate_chunk(chunk: str, complete_index: int) -> None:
 
@@ -47,20 +54,9 @@ def translate_chunk(chunk: str, complete_index: int) -> None:
                 f.write(txt + "\n")
         index += 1
 
-    with open(PICKLE_DUMP_PATH, "rb+") as fp:
-        complete = pickle.load(fp)
-        complete[complete_index] = True
-        pickle.dump(complete, fp)
-
+    complete[complete_index] = True
 
 async def main() -> None:
-    if not os.path.exists(PICKLE_DUMP_PATH):
-        complete: List[bool] = [False] * (END - START + 1)
-        with open(PICKLE_DUMP_PATH, "wb") as fp:
-            pickle.dump(complete, fp)
-
-    with open(PICKLE_DUMP_PATH, "rb") as fp:
-        complete = pickle.load(fp)
 
     pool = concurrent.futures.ThreadPoolExecutor(max_workers=THREAD_LIMIT)
 
@@ -79,8 +75,8 @@ if __name__ == "__main__":
     end = datetime.datetime.now()
     print(end - start)
     winsound.Beep(2500, 1000)
-    with open(PICKLE_DUMP_PATH, "rb") as f:
-        complete = pickle.load(f)
+    with open(PICKLE_DUMP_PATH, "wb") as f:
+        pickle.dump(complete, f)
     COUNT = 0
     for status in complete:
         if status:
