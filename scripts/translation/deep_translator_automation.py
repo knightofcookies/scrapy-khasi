@@ -6,6 +6,7 @@ import pickle
 import concurrent.futures
 from typing import List
 from deep_translator import GoogleTranslator
+from win11toast import toast
 
 # Add {"khasi": "kha"} to the Google Translate dict in constants.py in deep_translator
 
@@ -78,3 +79,4 @@ if __name__ == "__main__":
     end = datetime.datetime.now()
     print(end - start)
     winsound.Beep(2500, 1000)
+    toast('Program Terminated', 'Change your IP address and try again.')

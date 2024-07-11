@@ -67,5 +67,7 @@ tzdata==2024.1
 urllib3==2.2.1
 w3lib==2.2.0
 websocket-client==1.8.0
+win11toast==0.35
+winsdk==1.0.0b10
 wsproto==1.2.0
 zope.interface==6.4.post2
