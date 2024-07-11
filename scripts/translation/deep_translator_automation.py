@@ -54,7 +54,7 @@ def translate_chunk(chunk: str, complete_index: int) -> None:
 
 async def main() -> None:
     if not os.path.exists(PICKLE_DUMP_PATH):
-        complete: List[bool] = [False * (END - START + 1)]
+        complete: List[bool] = [False] * (END - START + 1)
         with open(PICKLE_DUMP_PATH, "wb") as fp:
             pickle.dump(complete, fp)
 
@@ -66,7 +66,7 @@ async def main() -> None:
     chunk_index = 0
     while chunk_index < (END - START + 1):
         if not complete[chunk_index]:
-            pool.submit(translate_chunk, f"part{START+chunk_index}.txt", chunk_index)
+            pool.submit(translate_chunk, f"part{START+chunk_index}", chunk_index)
         chunk_index += 1
 
     pool.shutdown(wait=True)
