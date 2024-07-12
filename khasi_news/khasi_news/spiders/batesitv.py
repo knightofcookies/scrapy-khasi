@@ -20,11 +20,6 @@ class BatesitvSpider(scrapy.Spider):
             yield scrapy.Request(
                 url=link, callback=self.parse_article_page, meta={"playwright": True}
             )
-        next_link = response.css("div.nav-links a.next ::attr(href)")
-        if next_link is not None:
-            yield scrapy.Request(
-                url=next_link, callback=self.parse, meta={"playwright": True}
-            )
 
     def parse_article_page(self, response):
         te = response.css("div.entry-content p::text").extract()
