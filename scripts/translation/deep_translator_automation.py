@@ -94,9 +94,10 @@ if __name__ == "__main__":
             "Program Terminated",
             f"{COUNT}/{len(complete)} chunks in range successfully translated.",
         )
-    toast(
-        "Program Terminated",
-        f"""{COUNT}/{len(complete)} chunks in range successfully translated. 
+    else:
+        toast(
+            "Program Terminated",
+            f"""{COUNT}/{len(complete)} chunks in range successfully translated. 
 Change your IP address to finish the rest.""",
-    )
-    print("Translation pending for chunks: ", incomplete)
+        )
+        print("Translation pending for chunks: ", incomplete)
