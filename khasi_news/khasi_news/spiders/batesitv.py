@@ -10,6 +10,9 @@ class BatesitvSpider(scrapy.Spider):
     def start_requests(self):
         url = "https://batesitv.com/category/khasi/"
         yield scrapy.Request(url=url, callback=self.parse, meta={"playwright": True})
+        for i in range(2, 182):
+            yield scrapy.Request(url=f"{url}page/{i}", callback=self.parse, meta={"playwright": True})
+
 
     def parse(self, response):
         links: List[str] = response.css("h2.entry-title a ::attr(href)").extract()
