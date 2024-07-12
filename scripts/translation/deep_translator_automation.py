@@ -10,10 +10,10 @@ from win11toast import toast
 
 # Add {"khasi": "kha"} to the Google Translate dict in constants.py in deep_translator
 
-THREAD_LIMIT = 100
+THREAD_LIMIT = 101
 
-START = 301 # Delete pickle_dump if you change this
-END = 634 # Delete pickle_dump if you change this
+START = 201  # Delete pickle_dump if you change this
+END = 634  # Delete pickle_dump if you change this
 
 PICKLE_DUMP_PATH = "pickle_dump"
 
@@ -25,19 +25,20 @@ if not os.path.exists(PICKLE_DUMP_PATH):
 with open(PICKLE_DUMP_PATH, "rb") as fp:
     complete = pickle.load(fp)
 
+
 def translate_chunk(chunk: str, complete_index: int) -> None:
 
     source = "kha"
     target = "en"
 
-    with open(f"chunks_for_translation/{chunk}.txt", "r", encoding="utf-8") as f:
-        orig_lines = f.readlines()
+    with open(f"chunks_for_translation/{chunk}.txt", "r", encoding="utf-8") as cfp:
+        orig_lines = cfp.readlines()
 
     index = 0
     file_path = f"translated/{chunk}_{source}_to_{target}.txt"
     if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as f:
-            index = len(f.readlines())
+        with open(file_path, "r", encoding="utf-8") as cfp:
+            index = len(cfp.readlines())
     if index < 0:
         index = 0
 
@@ -48,13 +49,17 @@ def translate_chunk(chunk: str, complete_index: int) -> None:
 
     while index < len(orig_lines):
         line = orig_lines[index]
-        txt = translator.translate(line)
+        if len(line) < 5000:
+            txt = translator.translate(line)
+        else:
+            txt = translator.translate(line[:4999])
         if txt is not None:
-            with open(file_path, "a", encoding="utf-8") as f:
-                f.write(txt + "\n")
+            with open(file_path, "a", encoding="utf-8") as cfp:
+                cfp.write(txt + "\n")
         index += 1
 
     complete[complete_index] = True
+
 
 async def main() -> None:
 
@@ -77,10 +82,21 @@ if __name__ == "__main__":
     winsound.Beep(2500, 1000)
     with open(PICKLE_DUMP_PATH, "wb") as f:
         pickle.dump(complete, f)
+    incomplete: List[int] = []
     COUNT = 0
-    for status in complete:
-        if status:
+    for i in range(0, END - START + 1):
+        if complete[i]:
             COUNT += 1
+        else:
+            incomplete.append(START + i)
     if COUNT == len(complete):
-        toast('Program Terminated', 'All chunks in range successfully translated.')
-    toast('Program Terminated', 'Change your IP address and try again.')
+        toast(
+            "Program Terminated",
+            f"{COUNT}/{len(complete)} chunks in range successfully translated.",
+        )
+    toast(
+        "Program Terminated",
+        f"""{COUNT}/{len(complete)} chunks in range successfully translated. 
+Change your IP address to finish the rest.""",
+    )
+    print("Translation pending for chunks: ", incomplete)
