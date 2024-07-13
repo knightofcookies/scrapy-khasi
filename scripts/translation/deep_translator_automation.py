@@ -10,9 +10,9 @@ from win11toast import toast
 
 # Add {"khasi": "kha"} to the Google Translate dict in constants.py in deep_translator
 
-THREAD_LIMIT = 101
+THREAD_LIMIT = 100
 
-START = 201  # Delete pickle_dump if you change this
+START = 1  # Delete pickle_dump if you change this
 END = 634  # Delete pickle_dump if you change this
 
 PICKLE_DUMP_PATH = "pickle_dump"
