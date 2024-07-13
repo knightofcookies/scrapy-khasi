@@ -13,7 +13,7 @@ from win11toast import toast
 THREAD_LIMIT = 100
 
 START = 1  # Delete pickle_dump if you change this
-END = 634  # Delete pickle_dump if you change this
+END = 131  # Delete pickle_dump if you change this
 
 PICKLE_DUMP_PATH = "pickle_dump"
 
@@ -31,19 +31,19 @@ def translate_chunk(chunk: str, complete_index: int) -> None:
     source = "kha"
     target = "en"
 
-    with open(f"chunks_for_translation/{chunk}.txt", "r", encoding="utf-8") as cfp:
+    with open(f"chunks_for_translation_2/{chunk}.txt", "r", encoding="utf-8") as cfp:
         orig_lines = cfp.readlines()
 
     index = 0
-    file_path = f"translated/{chunk}_{source}_to_{target}.txt"
+    file_path = f"translated_2/{chunk}_{source}_to_{target}.txt"
     if os.path.exists(file_path):
         with open(file_path, "r", encoding="utf-8") as cfp:
             index = len(cfp.readlines())
     if index < 0:
         index = 0
 
-    if not os.path.exists("translated/"):
-        os.mkdir("translated")
+    if not os.path.exists("translated_2/"):
+        os.mkdir("translated_2")
 
     translator = GoogleTranslator(source=source, target=target)
 
