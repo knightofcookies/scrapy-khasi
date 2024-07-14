@@ -1,6 +1,8 @@
 with open("cleaned_parallel_corpus.tsv", "r", encoding="utf-8") as fp:
     lines = fp.readlines()
 
+lines.pop(0)
+
 kha_lines = []
 en_lines = []
 

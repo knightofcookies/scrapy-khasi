@@ -5,10 +5,11 @@ start = datetime.datetime.now()
 with open("translated_parallel_corpus.tsv", "r", encoding="utf-8") as fp:
     lines = fp.readlines()
 
+lines.pop(0)
 total = len(lines)
 count = 0
 lines_with_colon = []
-new_lines = []
+new_lines = ["en\t\t\t\t\tkha\n"]
 for line in lines:
     count += 1
     kha_sentence = line.split("\t\t\t\t\t")[1]
