@@ -159,4 +159,4 @@ khasi_corpus.xlsx
 pickle_dump
 en.txt
 kha.txt
-translated_parallel_corpus.tsv
+*.tsv
