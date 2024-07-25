@@ -160,4 +160,7 @@ pickle_dump
 en.txt
 kha.txt
 *.tsv
-*.txt
+kha_train.txt
+kha_eval.txt
+en_train.txt
+en_eval.txt
