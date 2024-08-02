@@ -105,3 +105,4 @@ Ki ju ai jinghikai ha ki kam ba treikam.
 Bunsien, ia ka CentOS la ju pyndonkam ha ki server (ki kompiwtor kiba ai jingshakri ia ki briew ne kiwei ki kompiwtor) namar ba ka long kaba skhem (kam ju sniew bunsien) bad lah ban buh (buh ha ka kompiwtor) ha ka por kaba ym slem, haba ia nujor bad kiwei pat ki distribution kum ka Gentoo . .
 Ki khnai America kin duh jingkynmaw bad kin ngam jyllop namar ka jingshit jingkhriat ha kata ka jingshit.
 Khyndiat tylli ki nuksa kin pynshai ba ki mrad ba bam dohkha ki iapher bha na ki mrad ba her bad ki sim:
+Katba u dang don ha Melbourne University, u Fleay u la ia kynduh ia kawei ka samla pule science kaba kyrteng ka Mary Sigrid Collie.

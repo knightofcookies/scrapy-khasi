@@ -154,3 +154,4 @@ Namar ba ka long ka shnong kaba heh tam ha ka ri Australia pdeng, don ruh ki non
 Ka jingïalehkai kaba ar (ka jingïalehkai)
 Kane harum ka dei ka nuksa jong ka prokram Hello World ha ka Haskell:
 U Michael Wong u la shah pynduh noh ha ka 1st Round.
+Ka jingkhih stet jong ka dohnud

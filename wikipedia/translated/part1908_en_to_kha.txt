@@ -410,3 +410,6 @@ Newry bad Armagh
 2013 : Ka jingialehkai phutbol - 11th
 2000 mynta: U nongpdiang ia ka hukum jong u nongtih mawshun
 Ka jingroi ha ka jingbun
+Ka shyntur jong u ka iajan bad ka met.
+Kiwei pat ki data, kum ka DNS Nameserver, lane ka time server ruh lah ban ioh da kata ka rukom.
+Ka jingiathuhkhana ka la iadei bad ki katto katne ki mat kiba khia kiba pher na ka bynta ka jingrwai.
