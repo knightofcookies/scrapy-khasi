@@ -146,3 +146,5 @@ Hynrei ka kyndon ka don ki jingpynkylla: lôgic.
 Kane ka mut ba ha ka por Lent ki briew kim dei ban pyrkhat ia ka "doh" (ka met jong ki) hynrei ki dei ban leh ia kiei kiei kiba bha na ka bynta ka mynsiem jong ki.
 Kawei pat ka dei ka Allophryne kaba phyrnai.
 Ka iaid hapdeng ka Paris bad ka Caen.
+Hot magenta (crayola) (hex: #ff00cc) (rgb: 255, 0, 204)
+Ka klob Jazz bad ka klob shad teng teng ki leh ia la ka jong ka jinglehniam.
